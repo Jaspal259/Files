@@ -1,0 +1,95 @@
+package KeywordDrivern;
+
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+public class Midas {
+
+	public static void main(String[] args) throws Exception {
+
+		
+
+		System.setProperty("webdriver.ie.driver",
+				"C:\\Users\\jaspal-singh\\Desktop\\Cucumber Jars\\CucumberJars-master\\IE32\\IEDriverServer.exe");
+
+		DesiredCapabilities caps = DesiredCapabilities.internetExplorer();
+
+		caps.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+
+		WebDriver driver = new InternetExplorerDriver(caps); 
+
+		
+
+
+		driver.get("http://gbexe13as50v:8082/MidasForms/SchemeMenu");
+		
+
+
+		driver.findElement(By.id("schemeSelect")).click();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//a[text()='Class']")).click();
+		
+//		 String parent = driver.getWindowHandle();
+//		Set <String> allwindow =driver.getWindowHandles();
+//		
+//		for(String w : allwindow)
+//		{
+//			driver.switchTo().window(w);
+		//(JavascriptExecutor)driver).executeScript("window.focus();");
+
+//			
+//			
+//			
+//			Thread.sleep(3000);
+//
+//		}
+		
+		ArrayList<String> tabs2 = new ArrayList<String>(driver.getWindowHandles());
+        System.out.println(tabs2.size());
+
+        for (int i = tabs2.size()-1; i>=0; i--) {
+            Thread.sleep(2000);
+            driver.switchTo().window(tabs2.get(i));
+            Robot robot = new Robot();
+
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_TAB);
+            robot.keyRelease(KeyEvent.VK_TAB);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+            
+       
+            
+            Thread.sleep(3000);
+            System.out.println(driver.getTitle() + "i: " + i);
+            
+            if(driver.getTitle().contains("BeSt SYS : A25L | Scheme - Midas Profile | Class | Jaspal Singh"))
+            		{
+                driver.findElement(By.cssSelector("button#addNewRow")).click();
+                Thread.sleep(5000);
+        		driver.quit();
+                
+            		}
+
+            
+            
+           // do what you needed
+        }
+		
+
+	}
+
+}
